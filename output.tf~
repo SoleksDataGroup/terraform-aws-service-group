@@ -1,0 +1,7 @@
+// Module: aws/service-group
+//
+
+output "target_group_arns" {
+  description = "Service group target group ARNs"
+  value = aws_lb_target_group.service_target_group[*].arn
+}
