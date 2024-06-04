@@ -50,16 +50,6 @@ data "aws_ami" "service-group-ami" {
   owners = ["self"]
 }
 
-data "cloudinit_config" "service-group-cloud-init" {
-  gzip = true
-  base64_encode = true
-
-  part {
-    content_type = "text/cloud-config"
-    content = templatefile("${path.module}/templates/service-group-cloud-init.yaml.tpl",{})
-  }
-}
-
 resource "aws_launch_template" "service-group-launch-tmpl" {
   name_prefix = "${var.name_prefix}-${var.service_type}"
 
@@ -78,7 +68,7 @@ resource "aws_launch_template" "service-group-launch-tmpl" {
     arn = "${var.instance_iam_profile_arn}"
   }
 
-  user_data = data.cloudinit_config.service-group-cloud-init.rendered
+  user_data = var.user_data
 
   vpc_security_group_ids = [aws_security_group.service-group-sg.id]
 

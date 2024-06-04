@@ -123,3 +123,9 @@ variable "security_group_egress" {
   }))
   default = []
 }
+
+variable "user_data" {
+  description = "Cloudinit userdata in base64 format"
+  type = string
+  default = ""
+}
